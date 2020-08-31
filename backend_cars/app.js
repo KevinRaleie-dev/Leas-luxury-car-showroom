@@ -1,7 +1,7 @@
 // Create a restful API in express
 // Can also use Postman to make an HTTP Post request
 //to add additional items to the list of cars.
-
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require('cors')
@@ -37,10 +37,15 @@ app.get("*", function(req, res, next) {
 });
 
 // Linking to MongoDB 
-const uri = "mongodb+srv://Lea:Lea123@lvl3task6-41wpz.mongodb.net/test?retryWrites=true&w=majority"
+const uri = process.env.MONGO_URI;
 mongoose.Promise = global.Promise;
 
-mongoose.connect(uri);
+// Deprecation warning of current server discovery and monitoring engine
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+});
 
 mongoose.connection.on('error', function() {
 	console.log('Connection to Mongo established.');
